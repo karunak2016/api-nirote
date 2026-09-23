@@ -1,0 +1,18 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+## Publish output
+publish_out/
+**/publish_output/
+
+## Secrets
+**/appsettings.Production.json
+**/firebase-adminsdk*.json
+
+## OS
+.DS_Store
+Thumbs.db
