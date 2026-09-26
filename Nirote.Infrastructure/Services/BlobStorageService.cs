@@ -117,10 +117,11 @@ public class BlobStorageService
         var client = GetR2Client();
         var request = new PutObjectRequest
         {
-            BucketName  = _r2BucketName,
-            Key         = fileName,
-            InputStream = stream,
-            ContentType = contentType,
+            BucketName          = _r2BucketName,
+            Key                 = fileName,
+            InputStream         = stream,
+            ContentType         = contentType,
+            DisablePayloadSigning = true,
         };
         await client.PutObjectAsync(request);
 
