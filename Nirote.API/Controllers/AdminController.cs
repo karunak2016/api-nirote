@@ -77,6 +77,26 @@ public class AdminController : ControllerBase
             throw;
         }
     }
+
+    [HttpPost("cleanup/localhost-images")]
+    public async Task<IActionResult> CleanupLocalhostImages()
+    {
+        try
+        {
+            using var conn = _db.Create();
+            var deletedImages = await conn.ExecuteAsync(
+                "DELETE FROM ProductImages WHERE ImageUrl LIKE '%localhost%'");
+            var clearedDefaults = await conn.ExecuteAsync(
+                "UPDATE Products SET DefaultImageUrl = NULL WHERE DefaultImageUrl LIKE '%localhost%'");
+            _logger.LogInformation("Cleanup: deleted {Images} product images, cleared {Defaults} default image URLs", deletedImages, clearedDefaults);
+            return Ok(new { deletedImages, clearedDefaults });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Cleanup localhost images failed");
+            throw;
+        }
+    }
 }
 
 public class DashboardSummaryDto
